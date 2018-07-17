@@ -1,31 +1,11 @@
-Bulk Create Logical Volume
+Bulk Create Logical Volume on all DBs
 AS ROOT (already created when creating logical volume)
-lvcreate -n lv_T_231465_22 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_23 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_24 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_25 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_26 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_27 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_28 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_29 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_30 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_31 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_32 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_33 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_34 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_35 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_36 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_37 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_38 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_39 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_40 -L 5G vg_wcmdata
-lvcreate -n lv_T_231465_41 -L 5G vg_wcmdata
+for H in 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41; do lvcreate -n lv_T_231465_${H} -L 5G vg_wcmdata; done
+for H in 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41; do mke2fs -j /dev/mapper/vg_wcmdata-lv_T_231465_${H}; done
+for H in 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41; do mkdir -p /wcmdata/T_231465_${H}_data; echo "/dev/vg_wcmdata/lv_T_231465_${H} /wcmdata/T_231465_${H}_data ext3 defaults,noatime 1 2" >> /etc/fstab; mount  /wcmdata/T_231465_${H}_data; done
+for H in 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41; do chown -R db2inst1:db2iadm1 /wcmdata/T_231465_${H}_data; done
 
-for H in 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21; do lvcreate -n lv_T_231465_${H} -L 5G vg_wcmdata; done
-for H in 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21; do mke2fs -j /dev/mapper/vg_wcmdata-lv_T_231465_${H}; done
-for H in 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21; do mkdir -p /wcmdata/T_231465_${H}_data; echo "/dev/vg_wcmdata/lv_T_231465_${H} /wcmdata/T_231465_${H}_data ext3 defaults,noatime 1 2" >> /etc/fstab; mount  /wcmdata/T_231465_${H}_data; done
-for H in 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21; do chown -R db2inst1:db2iadm1 /wcmdata/T_231465_${H}_data; done
-
+ON Primary
 su db2inst1
 db2 stop hadr on db wcm
 db2pd -db WCM -hadr
@@ -175,5 +155,5 @@ db2 "call SYSPROC.ADMIN_COPY_SCHEMA ('S_353_231465','T_231465_41','COPY', NULL, 
 multiTenant_config.json file updates
 RunStats files & Execute
 Take Full Offline Backup
-Copy to all servers
+Copy to db02, db03
 Restore on all.
