@@ -1,0 +1,72 @@
+Testing Tool Considerations
+
+  Tool Features
+    Support Master & Agent/Slave usage
+    Support Multiple Concurrent Users
+    Target multiple different URLs - preferably from a single instance of the tool, or with agents/slaves.
+    Error Handling/Reporting - Alert when an actual error has occurred. Ability to configure error handling
+    Error Triage - See Page/Page Elements Request & Response
+
+  Metrics & Result Data
+    Page/Page Element/Request level metrics - Avg, Standard Dev, Min, Max
+      Breakdown of each request/response call - time in network, time in connection, time in page load...
+    Active Users during a test (including usage of Think Time)
+    Ability to narrow test time frame e.g get Steady State and remove ramp up.
+    View test execution/performance as test progresses e.g. for long running tests.
+
+  Results & Reporting
+    Ease of reporting/exporting test results - Graphs to show metrics, test metrics, trends.  Ease of parsing for automation.
+    Command Line functionality - kick off tests, gather results.
+    Interaction with Jenkins/Slack/Github
+
+  Scripts & Source Control
+    Manage Code Checkins e.g. Lock Stream, stop checkins
+    File History, and ability to reverse changes.
+
+
+Performance Tool Criteria - What must JMeter have to be considered an alternative tool to use
+  Integrate with RTC or github for script source control
+    If not RTC - then need some kind of POC on github
+  Able to record scripts against WCM, Connect and API
+  Scripting recording and maintenance should be on a par or better with RPT
+  Able to playback scripts against WCM, Connect and API
+  View test execution/performance as test progresses
+  View test output (requests/responses) to triage issues [similar to RPT TestLog]
+  Test Reports should include:
+    Metrics on Individual Page Calls [similar to Page Elements in RPT]
+    Error Counts
+    Summary View of overall test
+  Performance Reports & data can be exported
+  Deliver similar or better performance results when testing WCM, Connect & API
+    Within margin of acceptance e.g. network traffic
+  Not overload the VM running JMeter - CPU & Memory Usage on OS - especially over extended periods of time.
+    Run a Reliability test to determine?
+
+
+POC Requirements
+  Script(s) recorded using JMeter & RPT
+    That cover - WCM, Connect & API
+      WCM incl. Custom Data Type
+    That use (or similar): Custom Code, Variable assignment, Substitution from a pool, extract references from page, Substitution from a variable file..
+      Or anything else that we use in RPT...
+  2 VMs - with same resources - for each tool.
+  One Stack with required data for testing
+  Same Schedule/Scenario that can be executed against different tenants at the same time [similar to User Groups in RPT]
+    Tenant01 - WCM
+    Tenant02 - Connect
+    Tenant03 - API
+  Test executed with the use of Agents/Slaves in both Tools
+  Multiple Concurrent Users in the test - ideally ramping up
+  Run both PVT and Reliability to determine tool resource usage and stability
+  Comparison of Results to determine difference - and if acceptable
+    Tool Response Times
+    JMX
+
+
+Should we stick with RPT - Can we use the time saved to improve how we use RPT?
+What POCs could we do for RPT to improve how we test.
+  Response Code Verification usage & Categorizing Errors.
+  Better & Consistent Page Names in WCM - similar to Connect
+  Script Cleanup - Remove Unused scripts
+  Create default Report template & Reporting Dashboard.
+  s

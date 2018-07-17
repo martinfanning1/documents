@@ -1,0 +1,56 @@
+Finished Datagen - Take Online Full Backup
+
+cd /usr/local/bin/
+./db2_backup.sh -d wcm -t online_full
+
+Once complete run
+db2 "list history backup all for db wcm"
+  Get Timestamp details for this backup.. generally at end of output..
+  Store this with backup
+
+    Comment: DB2 BACKUP WCM ONLINE
+    Start Time: 20180516083934
+    End Time: 20180516090106
+
+Get Tenant Tabelsapce Info
+db2 connect to wcm
+db2 "select substr(TableSpace.tbsp_name,1,20) as Tablespace_Name, substr(TableSpace.tbsp_id,1,5) as ID, Container.container_name as Container_Name from sysibmadm.tbsp_utilization as TableSpace join sysibmadm.container_utilization as Container on TableSpace.tbsp_id = Container.tbsp_id where Container_Name like '%T_221000_01%'"
+
+
+Need to Restore on DB01
+
+On DB01 Stop HADR
+cd /backups/online_full
+db2 stop hadr on database wcm
+
+Restore Tenant TableSpaces
+db2 "restore db wcm tablespace (<TableSpaceID 1>, <TableSpaceID 2>, <TableSpaceID 3>, <TableSpaceID 4>) online from . taken at <Start Time>"
+ e.g. db2 "restore db wcm tablespace (T15193161364K, T151931613632K, T1519316136LNG, T1519316136IDX) online from . taken at 20180516083934"
+
+
+Rollforward Tenant Tabelsapces
+db2 "rollforward db wcm to <End Time in format - 2018-03-12-16.38.50> and complete tablespace (<TableSpaceID 1>, <TableSpaceID 2>, <TableSpaceID 3>, <TableSpaceID 4>) online"
+  e.g. db2 "rollforward db wcm to 2018-05-16-09.01.06 and complete tablespace (T15193161364K, T151931613632K, T1519316136LNG, T1519316136IDX) online"
+
+
+Take New Backup to restore on Secondary & Aux..
+
+cd /usr/local/bin/
+./db2_backup.sh -d wcm -t online_full
+
+Copy back to other db servers using normal copy process
+Change file owner and move file to /backups
+
+Restore copied back up on db02, db03
+cd /backups
+db2 "restore db wcm from . taken at <Timestamp of copied Backup>"
+  Answer yes at the prompt
+
+deactivate db on DB02, DB03
+db2 deactivate db wcm
+
+Start HADR on Aux and Secondary
+db2 start hadr on db wcm as STANDBY
+
+Start HADR on Primary
+db2 start hadr on db wcm as PRIMARY
