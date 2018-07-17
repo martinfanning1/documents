@@ -24,7 +24,7 @@ Testing Tool Considerations
     File History, and ability to reverse changes.
 
 
-Performance Tool Criteria - What must JMeter have to be considered an alternative tool to use
+Performance Tool Criteria - What must JMeter   have to be considered an alternative tool to use
   Integrate with RTC or github for script source control
     If not RTC - then need some kind of POC on github
   Able to record scripts against WCM, Connect and API
@@ -69,4 +69,3 @@ What POCs could we do for RPT to improve how we test.
   Better & Consistent Page Names in WCM - similar to Connect
   Script Cleanup - Remove Unused scripts
   Create default Report template & Reporting Dashboard.
-  s

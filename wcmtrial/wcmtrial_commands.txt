@@ -1,0 +1,69 @@
+WLP001
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp01_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp01_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp01_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp01_run02.nmon -T -s 10 -c 850
+
+
+WLP002
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp02_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp02_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp02_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp02_run02.nmon -T -s 10 -c 850
+
+
+WLP003
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp03_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp03_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp03_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp03_run02.nmon -T -s 10 -c 850
+
+
+WLP004
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp04_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp04_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp04_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp04_run02.nmon -T -s 10 -c 850
+
+
+WLP005
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp05_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp05_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp05_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp05_run02.nmon -T -s 10 -c 850
+
+
+WLP006
+tail -f -n 10 /var/log/curam/353-231465/applogs/app.log > /tmp/wlp06_applog.txt &
+tail -f -n 10 /var/log/curam/353-231465/securitylogs/security.log > /tmp/wlp06_securitylog.txt &
+tail -f -n 10 /opt/deployment/wlp/usr/servers/CuramServer/logs/messages.log > /tmp/wlp06_messageslog.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_wlp06_run02.nmon -T -s 10 -c 850
+
+IHS001
+cd /opt/IBM/HTTPServer
+tail -f -n 10 /opt/IBM/HTTPServer/logs/access_log > /tmp/ihs01_accesslog.txt &
+./requests_per_sec -f 1 -l /opt/IBM/HTTPServer/logs/access_log > ihs01_requestspersec_pvt.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_ihs01_run02.nmon -T -s 10 -c 850
+
+IHS002
+cd /opt/IBM/HTTPServer
+tail -f -n 10 /opt/IBM/HTTPServer/logs/access_log > /tmp/ihs02_accesslog.txt &
+./requests_per_sec -f 1 -l /opt/IBM/HTTPServer/logs/access_log > ihs02_requestspersec_pvt.txt &
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_ihs02_run02.nmon -T -s 10 -c 850
+
+DB01
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_db01_run02.nmon -T -s 10 -c 850
+
+DB02
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_db02_run02.nmon -T -s 10 -c 850
+
+DB03
+nmon -F /opt/nmon/pvt_wcmtrial_20tenants_db03_run02.nmon -T -s 10 -c 850
+
+JMXStats
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp01_jmxstats.zip -@
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp02_jmxstats.zip -@
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp03_jmxstats.zip -@
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp04_jmxstats.zip -@
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp05_jmxstats.zip -@
+find /var/log/curam/353-231465/jmxtimer -type f -newermt "2018-07-10 07:10:00" ! -newermt "2018-07-10 10:40:00" | zip /tmp/wlp06_jmxstats.zip -@
